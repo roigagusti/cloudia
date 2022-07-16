@@ -1,0 +1,179 @@
+/*
+* Title: Style
+* Author: Aldasoro
+* Template: Aldasoro
+* Version: 1.0
+* Copyright 2021 Aldasoro Inc.
+* Url: https://www.aldasoro.ml
+
+
+Content table
+--------------
+0. Center
+1. Sidebar
+2. sfsdfasfaf
+3. Configuració
+
+
+/* ----- 0. Basics ----- */
+body{
+  background-color: #487767;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+}
+header{
+  background-color: #487767;
+  padding: 20px 0;
+  position: absolute;
+  width: 100%;
+  top:0;
+}
+h1{
+  font-size: 1.6rem !important;
+  font-weight:600;
+}
+#layout-wrapper{
+  position: relative;
+  padding-top:10px;
+  background-color: #fafafa;
+  min-height: 100%;
+  height: auto;
+}
+.center{
+  text-align: center !important;
+}
+.right{
+  text-align: right !important;
+}
+.left{
+  text-align: left !important;
+}
+a{
+  color:#666;
+  text-decoration: none;
+}
+li{
+  list-style: none;
+}
+
+/* ----- 0. Loading ----- */
+.loading-text{
+  margin-top:10px;
+  font-size: 0.8rem;
+  color: #999;
+}
+
+/* ----- 2. Header ----- */
+header{
+  width: 100%;
+  margin:0;
+  padding:0;
+  height: 45px;
+  text-align: center;
+  position: relative;
+  display: block;
+  z-index:5;
+  background-color: #fafafa;
+  color: #333;
+}
+.header-left,.header-right{
+  width:40px;
+  margin-top:12px;
+  cursor: pointer;
+}
+.header-left{
+  float:left;
+  text-align: left;
+  margin-left:20px;
+}
+.header-right{
+  float:right;
+  text-align: right;
+  margin-right: 20px;
+}
+.index-logo img{
+  height: 25px;
+}
+.header-bars{
+  cursor: pointer;
+  position: relative;
+  z-index: 10;
+}
+.header-bars svg{
+  height: 20px;
+  fill: #333;
+}
+.logo-base{
+  display:block;
+}
+.logo-responsive{
+  display:none;
+}
+
+/* ----- 2. Menu ----- */
+.menu{
+  position: absolute;
+  top: 45px;
+  left: 0;
+  width: 100%;
+  color: #666;
+  z-index: 12;
+}
+.menu-list{
+  padding-left: 20px;
+  margin-top: 20px;
+}
+.menu-list li{
+  margin-top:10px;
+  color:#666 !important;
+  font-size: 0.9rem;
+}
+.menu-list li a{
+  color:#666;
+}
+.menu-list > .inner-menu{
+  margin-left:20px;
+  font-size: 0.9em;
+}
+.menu-list .head{
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  margin-bottom:20px;
+}
+.menu .nav-icon{
+  fill:#666;
+  position: relative;
+  width: auto;
+  margin-right: 5px;
+  margin-bottom: 10px;
+  top: 4px;
+}
+/* ----- 3. Sidebar ----- */
+.layerGroup {
+  margin-left: 20px;
+}
+.layer{
+  margin-left: 40px;
+}
+.text-gris{
+  color: #999;
+}
+.taskTitle,.taskPosition{
+  display: inline;
+}
+.taskPosition{
+  float: right;
+  /*margin-right: 10px;*/
+  color:#999;
+}
+.mirrored:before {
+  content: "↓";
+  margin-right: 6px;
+}
+.layerAlt{
+  color:#999;
+}

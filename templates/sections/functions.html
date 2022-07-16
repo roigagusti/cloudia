@@ -1,0 +1,181 @@
+<?php
+function sortByOrder($a, $b) {
+    return $a['position'] - $b['position'];
+}
+function api($url,$auth){
+    $curl = curl_init($url);
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+    $headers = array(
+        "Accept: application/json",
+        $auth,
+    );
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+    $resp = curl_exec($curl);
+    $content = json_decode($resp, true);
+    
+    if(strlen($resp)>5){ 
+        return $content;
+    }else{
+        return false;
+    }
+}
+function getRTcomponent($component){
+    $url = 'https://rompetechos.011h.com/api/v1/buildplatf/component/component-type/?ids='.$component.'&verbosity=recursive';
+    $auth = "x-api-key: lfR71ZKfhsayl2znPAUxu3tJuKGv29sZ6OMB4aTD";
+    $api = api($url,$auth);
+
+    if($api == false){ 
+        return false;
+    }else{
+        return $api;
+    }
+}
+function getComponent($c){
+    $url = "https://api.airtable.com/v0/appNTMJatyTIu81og/Component_Type?filterByFormula={Component_type_id}='".$c."'";
+    $auth = "Authorization:Bearer keyVBM9rXFpJNDEIU";
+    $api = api($url,$auth);
+    
+    if($api == false){ 
+        return false;
+    }else{
+        $component = array(
+            "id" => $c,
+            "description" => $api['records'][0]['fields']['Component_type_description'],
+            "eu" => $api['records'][0]['fields']['RL_Component_ExecutionUnit']
+        );
+        return $component;
+    }
+}
+function getEU($eu){
+    $url = "https://api.airtable.com/v0/appNTMJatyTIu81og/Execution_Unit_Type/".$eu;
+    $auth = "Authorization:Bearer keyVBM9rXFpJNDEIU";
+    $api = api($url,$auth);
+    
+    if($api == false){ 
+        return false;
+    }else{
+        $url2 = "https://api.airtable.com/v0/appNTMJatyTIu81og/Execution_Unit_Type/".$api["fields"]['Execution_unit_type_id'][0];
+        $api2 = api($url2,$auth);
+        
+        $eu = array(
+            "position"=>$api["fields"]["Position"],
+            "is_mirrored"=>$api["fields"]["is_mirrored"],
+            "execution_unit_type_id" => $api2["fields"]["Execution_unit_type_id"],
+            "execution_unit_type_description" => $api2["fields"]["Execution_unit_type_description"],
+            "thickness" => $api2["fields"]["Thickness"],
+            "clearance_vertical" => $api2["fields"]["Clearance_vertical"],
+            "clearance_horizontal" => $api2["fields"]["Clearance_horizontal"],
+            "can_host_mep" => $api2["fields"]["can_host_mep"],
+            "restriction_max_length" => $api2["fields"]["Restriction_max_length"],
+            "restriction_min_length" => $api2["fields"]["Restriction_min_length"],
+            "restriction_max_height" => $api2["fields"]["Restriction_max_height"],
+            "restriction_min_height" => $api2["fields"]["Restriction_min_height"],
+            "restriction_max_width" => $api2["fields"]["Restriction_max_width"],
+            "restriction_min_width" => $api2["fields"]["Restriction_min_width"],
+            "is_aggregable" => $api2["fields"]["is_aggregable"],
+            "construction_Site" => $api2["fields"]["Construction_Site"],
+            "restriction_max_weight" => $api2["fields"]["Restriction_max_weight"],
+            "execution_unit_type_name" => $api2["fields"]["Execution_unit_type_name"],
+            "version_status" => $api2["fields"]["version_status"],
+            "template_type_id" => $api2["fields"]["template_type_id"][0],
+            "lg" => $api2["fields"]['RL_ExecUnit_LayerGroup']
+        );
+        return $eu;
+    }
+}
+function getLG($lg){
+    $url = "https://api.airtable.com/v0/appNTMJatyTIu81og/Layer_Group_Type/".$lg;
+    $auth = "Authorization:Bearer keyVBM9rXFpJNDEIU";
+    $api = api($url,$auth);
+    
+    if($api == false){ 
+        return false;
+    }else{
+        $url2 = "https://api.airtable.com/v0/appNTMJatyTIu81og/Layer_Group_Type/".$api["fields"]['Layer_group_type_id'][0];
+        $api2 = api($url2,$auth);
+        
+        $lg = array(
+            "position"=>$api["fields"]["layer_starting_position"],
+            "is_mirrored"=>$api["fields"]["is_mirrored"],
+            "layer_group_type_id" => $api2["fields"]["Layer_group_type_id"],
+            "layer_group_type_name" => $api2["fields"]["Layer_group_type_name"],
+            "short_name" => $api2["fields"]["Short Name"],
+            "layer_group_type_description" => $api2["fields"]["Layer_group_type_description"],
+            "construction_site_compatibility" => $api2["fields"]["construction_site_compatibility"],
+            "l" => $api2["fields"]['Layer_Group_Type_Layer copy']
+        );
+        return $lg;
+    }
+}
+function getL($l){
+    $url = "https://api.airtable.com/v0/appNTMJatyTIu81og/Layer_Type/".$l;
+    $auth = "Authorization:Bearer keyVBM9rXFpJNDEIU";
+    $api = api($url,$auth);
+    
+    if($api == false){ 
+        return false;
+    }else{
+        $url2 = "https://api.airtable.com/v0/appNTMJatyTIu81og/Layer_Type/".$api["fields"]['Layer_Type'][0];
+        $api2 = api($url2,$auth);
+        
+        $l = array(
+            "position"=>$api["fields"]["Position"],
+            "layer_parametrizable_type" => $api["fields"]["Layer_parametrizable_type"],
+            "Status" => $api2["fields"]["Status"],
+            "Clearance_horizontal" => $api2["fields"]["Clearance_horizontal"],
+            "Clearance_vertical" => $api2["fields"]["Clearance_vertical"],
+            "Revit_layer" => $api2["fields"]["Revit_layer"],
+            "Layer_type" => $api2["fields"]["Layer_type"],
+            "Core_boundary" => $api2["fields"]["Core_boundary"],
+            "Budget Item Hierarchy" => $api2["fields"]["Budget Item Hierarchy"][0],
+            "Catalogo 011h partidas" => $api2["fields"]["bic_id"][0],
+            "Construction_Site" => $api2["fields"]["Construction_Site"],
+            "Material" => $api2["fields"]["m_id"][0],
+            "Layer Type Cost" => $api2["fields"]["Layer_type_cost_id"][0],
+            "version_status" => $api2["fields"]["version_status"],
+            "BOQ Layers" => $api2["fields"]["BOQ Layers"],
+            "layer_type_id" => $api2["fields"]["layer_type_id"],
+            "Related Materials Group Type" => $api2["fields"]["rmgtype_id"][0],
+            "Auxiliary Equipment" => $api2["fields"]["auxeqtype_id"][0]
+        );
+        return $l;
+    }
+}
+function buildComponent($c){
+    $component = getComponent($c);
+
+    if($component == false){
+        return false;
+    }else{
+        
+        // Constructor de EUs
+        foreach($component['eu'] as $eu){
+            $component['associated_execution_unit_types'][] = getEU($eu);
+        }
+
+        // Constructor de LGs
+        for($i=0;$i<count($component['eu']);$i++){
+            foreach($component['associated_execution_unit_types'][$i]['lg'] as $lg){
+                $component['associated_execution_unit_types'][$i]['associated_layer_group_types'][] = getLG($lg);
+            }
+        }
+
+        // Constructor de Ls
+        for($i=0;$i<count($component['eu']);$i++){
+            for($j=0;$j<count($component['associated_execution_unit_types'][$i]['lg']);$j++){
+                foreach($component['associated_execution_unit_types'][$i]['associated_layer_group_types'][$j]['l'] as $l){
+                    $component['associated_execution_unit_types'][$i]['associated_layer_group_types'][$j]['associated_layer_types'][] = getL($l);
+                }
+            }
+        }
+
+        return $component;
+    }
+    
+}
+?>
