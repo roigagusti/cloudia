@@ -2,6 +2,11 @@
 *.log
 
 # ignore ALL files in ANY directory named ...
+__pycache__/
+classes/private.py
+classes/__pycache__/
 env/
-app.py
+static/assets/
+static/images/
+static/lib/
 cloudia.code-workspace
